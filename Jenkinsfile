@@ -2,44 +2,36 @@ pipeline {
     agent none
 
     tools{
-        maven "mymaven"
+        maven 'mymaven'
     }
-    
     parameters{
-        string(name:'Env',defaultValue:'Test',description:'environment to deploy')
+        string(name:'Env',defaultValue:'Test',description:'version to deploy')
         booleanParam(name:'executeTests',defaultValue: true,description:'decide to run tc')
         choice(name:'APPVERSION',choices:['1.1','1.2','1.3'])
-
     }
     environment{
-        BUILD_SERVER='ec2-user@172.31.3.48'
+        BUILD_SERVER='ec2-user@172.31.9.94'
     }
-
     stages {
         stage('Compile') {
             agent any
             steps {
                 script{
-                    echo "Compiling the code"
-                   echo "Compiling in ${params.Env}"
-                   sh "mvn compile"
-                }
-                
+                echo "Compiling the code in ${params.Env}"
+                sh "mvn compile"
             }
-            
+            }
         }
         stage('CodeReview') {
             agent any
-            steps {
+            steps {               
                 script{
-                    echo "Code Review Using pmd plugin"
-                    sh "mvn pmd:pmd"
-                }
-                
+                 echo 'Reviewing the code with pmd'
+                sh "mvn pmd:pmd"
             }
-            
+            }
         }
-         stage('UnitTest') {
+        stage('UnitTest') {
             agent any
             when{
                 expression{
@@ -47,54 +39,53 @@ pipeline {
                 }
             }
             steps {
-                script{
-                    echo "UnitTest in junit"
-                    sh "mvn test"
-                }
-                
+               script{
+                 echo 'Testing the code with junit'
+                sh "mvn test"
+            }
             }
             post{
                 always{
                     junit 'target/surefire-reports/*.xml'
                 }
             }
-            
         }
-        stage('CodeCoverage') {
-            agent {label 'linux_slave'}
-            steps {
+        stage('CoverageAnalysis') {
+            agent {label 'linux_slave_aws'}
+            steps {  
                 script{
-                    echo "Code Coverage by jacoco"
-                    sh "mvn verify"
-                }
-                
+                 echo 'Static Code Coverage with jacoco'
+                sh "mvn verify"
             }
-            
+            }
         }
         stage('Package') {
             agent any
-            input{
-                message "Select the platform for deployment"
-                ok "Platform Selected"
-                parameters{
-                    choice(name:'Platform',choices:['EKS','EC2','On-prem'])
-                }
-            }
             steps {
-                script{
-                    sshagent(['slave2']) {
-                    echo "packaging the code"
-                    echo 'platform is ${Platform}'
-                    echo "packing the version ${params.APPVERSION}"
-                    //sh "mvn package"
-                    sh "scp  -o StrictHostKeyChecking=no server-script.sh ${BUILD_SERVER}:/home/ec2-user"
-                    sh "ssh -o StrictHostKeyChecking=no ${BUILD_SERVER} 'bash ~/server-script.sh'"
-                    
+               script{
+                sshagent(['slave2']) {
+                 echo "Packaging the code ${params.APPVERSION}"
+                sh "scp -o StrictHostKeyChecking=no server-script.sh ${BUILD_SERVER}:/home/ec2-user"
+                sh "ssh -o StrictHostKeyChecking=no ${BUILD_SERVER} 'bash ~/server-script.sh'"
                 }
-                
             }
-            
+            }
+        }
+        stage('Publish') {
+            agent any
+            input{
+                 message "Select the platform to deploy"
+                ok "platform selected"
+                parameters{
+                    choice(name:'NEWAPP',choices:['EKS','Ec2','on-premise'])
+                }
+            }
+            steps {  
+            script{
+                echo 'publishing the artifact to jfrog'
+                sh "mvn -U deploy -s settings.xml"
+            }
+            }
         }
     }
-}
 }
