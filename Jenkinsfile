@@ -73,7 +73,7 @@ pipeline {
             steps {
                 script{
                 echo 'Publishing the Artifact to JFROG'
-                sh "mvn -U deploy -s Settings.xml"
+                sh "mvn -U deploy -s settings.xml"
             }
             }
         }
