@@ -1,116 +1,40 @@
 pipeline {
-    agent none
-
-    tools{
-        maven "mymaven"
-    }
-    
-    parameters{
-        string(name:'Env',defaultValue:'Test',description:'environment to deploy')
-        booleanParam(name:'executeTests',defaultValue: true,description:'decide to run tc')
-        choice(name:'APPVERSION',choices:['1.1','1.2','1.3'])
-
-    }
-    environment{
-        BUILD_SERVER='ec2-user@172.31.9.94'
-    }
+    agent any
 
     stages {
         stage('Compile') {
-            agent any
             steps {
-                script{
-                    echo "Compiling the code"
-                   echo "Compiling in ${params.Env}"
-                   sh "mvn compile"
-                }
-                
+                echo 'Compiling the code'
             }
-            
         }
-        stage('CodeReview') {
-            agent any
+    
+        stage('Code review') {
             steps {
-                script{
-                    echo "Code Review Using pmd plugin"
-                    sh "mvn pmd:pmd"
-                }
-                
+                echo 'Reviewing the code with pmd'
             }
-            
         }
-         stage('UnitTest') {
-            agent any
-            when{
-                expression{
-                    params.executeTests == true
-                }
-            }
+        stage('UnitTest') {
             steps {
-                script{
-                    echo "UnitTest in junit"
-                    sh "mvn test"
-                }
-                
+                echo 'Testing the code using JUnit'
             }
-            post{
-                always{
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-            
         }
-        stage('CodeCoverage') {
-            agent {label 'linux_slave'}
+    
+        stage('Coverage Analysis') {
             steps {
-                script{
-                    echo "Code Coverage by jacoco"
-                    sh "mvn verify"
-                }
-                
+                echo 'Static code coverage with JACOCO'
             }
-            
         }
+    
         stage('Package') {
-            agent any
-            input{
-                message "Select the platform for deployment"
-                ok "Platform Selected"
-                parameters{
-                    choice(name:'Platform',choices:['EKS','EC2','On-prem'])
-                }
-            }
             steps {
-                script{
-                    sshagent(['slave2']) {
-                    echo "packaging the code"
-                    echo 'platform is ${Platform}'
-                    echo "packing the version ${params.APPVERSION}"
-                    //sh "mvn package"
-                    sh "scp  -o StrictHostKeyChecking=no server-script.sh ${BUILD_SERVER}:/home/ec2-user"
-                    sh "ssh -o StrictHostKeyChecking=no ${BUILD_SERVER} 'bash ~/server-script.sh'"
-                    
-                }
-                
+                echo 'Packaging the code'
             }
-            
+        }
+    
+        stage('Publish') {
+            steps {
+                echo 'Publishing the Artifact'
+            }
         }
     }
-    stage('Publish') {
-            agent any
-            input{
-                 message "Select the platform to deploy"
-                ok "platform selected"
-                parameters{
-                    choice(name:'NEWAPP',choices:['EKS','Ec2','on-premise'])
-                }
-            }
-            steps {  
-            script{
-                echo 'publishing the artifact to jfrog'
-                sh "mvn -U deploy -s settings.xml"
-            }
-            }
-    }
-}
 }
