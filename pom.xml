@@ -518,8 +518,8 @@
    <distributionManagement>
     <repository>
         <id>central</id>
-        <name>xxx</name>
-        <url>xx</url>
+        <name>a0wi4bje8qw8b-artifactory-primary-0-releases</name>
+        <url>https://manojdevops9.jfrog.io/artifactory/demo-libs-release</url>
     </repository>
 </distributionManagement>
 </project>
