@@ -11,6 +11,7 @@ pipeline {
         choice(name:'APPVERSION',choices:['1.1','1.2','1.3'])
     }
     stages {
+        agent any
         stage('Compile') {
             steps {
                 script{
@@ -21,6 +22,7 @@ pipeline {
         }
     
         stage('Code review') {
+            agent any
             steps {
                 script{
                 echo 'Reviewing the code with pmd'
@@ -29,6 +31,7 @@ pipeline {
             }
         }
         stage('UnitTest') {
+            agent any
             when{
                 expression{
                     params.executeTests == true
@@ -41,9 +44,15 @@ pipeline {
                 sh "mvn test"
             }
             }
+            post{
+                always{
+                    junit "target/surefire-reports/*.xml"
+                }
+            }
         }
     
         stage('Coverage Analysis') {
+            agent {label 'linux_slave'}
             steps {
                 script{
                 echo 'Static code coverage with JACOCO'
@@ -53,6 +62,7 @@ pipeline {
         }
     
         stage('Package') {
+            agent any
             steps {
                 script{
                 echo "Packaging the code ${params.APPVERSION}"
