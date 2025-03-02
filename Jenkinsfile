@@ -42,6 +42,14 @@ pipeline {
         }
     
         stage('Publish') {
+            input{
+                message "Select the Platform to deploy"
+                ok "Platformm selected."
+                submitter "Manoj"
+                parameters {
+                    choice(name: 'NEWAPP', choices: ['EKS','EC2','ON-PREMISE'])
+                }
+            }
             steps {
                 echo 'Publishing the Artifact'
             }
