@@ -51,7 +51,7 @@ pipeline {
             }
         }
         stage('CoverageAnalysis') {
-            agent {label 'slave1'}
+            agent {label 'linux_slave'}
             steps {  
                 script{
                  echo 'Static Code Coverage with jacoco'
