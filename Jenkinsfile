@@ -51,7 +51,7 @@ pipeline {
             }
         }
         stage('CoverageAnalysis') {
-            agent {label 'linux_slave_aws'}
+            agent {label 'slave1'}
             steps {  
                 script{
                  echo 'Static Code Coverage with jacoco'
@@ -63,7 +63,7 @@ pipeline {
             agent any
             steps {
                script{
-                sshagent(['slave1']) {
+                sshagent(['slave2']) {
                  echo "Packaging the code ${params.APPVERSION}"
                 sh "scp -o StrictHostKeyChecking=no server-script.sh ${BUILD_SERVER}:/home/ec2-user"
                 sh "ssh -o StrictHostKeyChecking=no ${BUILD_SERVER} 'bash ~/server-script.sh'"
