@@ -11,8 +11,8 @@ pipeline {
         choice(name:'APPVERSION',choices:['1.1','1.2','1.3'])
     }
     stages {
-        agent any
         stage('Compile') {
+            agent any
             steps {
                 script{
                 echo "Compiling the code in ${params.Env}"
