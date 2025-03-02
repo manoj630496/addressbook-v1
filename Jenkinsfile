@@ -72,6 +72,7 @@ pipeline {
         }
     
         stage('Publish') {
+            agent any
             input{
                 message "Select the Platform to deploy"
                 ok "Platformm selected."
