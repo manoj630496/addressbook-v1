@@ -96,5 +96,21 @@ pipeline {
             
         }
     }
+    stage('Publish') {
+            agent any
+            input{
+                 message "Select the platform to deploy"
+                ok "platform selected"
+                parameters{
+                    choice(name:'NEWAPP',choices:['EKS','Ec2','on-premise'])
+                }
+            }
+            steps {  
+            script{
+                echo 'publishing the artifact to jfrog'
+                sh "mvn -U deploy -s settings.xml"
+            }
+            }
+    }
 }
 }
