@@ -11,6 +11,7 @@ pipeline {
     }
     environment{
         BUILD_SERVER='ec2-user@172.31.5.36'
+        IMAGE_NAME='manojdevops9/repo1:$BUILD_NUMBER'
         DEPLOY_SERVER='ec2-user@172.31.0.60'
     }
     stages {
