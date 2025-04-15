@@ -61,7 +61,7 @@ pipeline {
             
         }
         stage('CodeCoverage') {
-            agent {label 'linux_slave'}
+            agent any
             steps {
                 script{
                     echo "Code Coverage by jacoco"
