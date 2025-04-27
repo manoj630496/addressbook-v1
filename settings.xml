@@ -3,13 +3,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <servers>
     <server>
-      <username>kumar.vahin309@gmail.com</username>
-      <password>cmVmdGtuOjAxOjE3NzI0MTk1NzI6S0lvZkJtOFNEN0o4bjZMSEdSS2traUdERlZq</password>
+      <username>vahin.kumar309@gmail.com</username>
+      <password>cmVmdGtuOjAxOjE3NzcyNzA5ODI6NnJNUzlLNElKOFJQRFVjcktwMzh1RWU5NUhB</password>
       <id>central</id>
     </server>
     <server>
-      <username>kumar.vahin309@gmail.com</username>
-      <password>cmVmdGtuOjAxOjE3NzI0MTk1NzI6S0lvZkJtOFNEN0o4bjZMSEdSS2traUdERlZq</password>
+      <username>vahin.kumar309@gmail.com</username>
+      <password>cmVmdGtuOjAxOjE3NzcyNzA5ODI6NnJNUzlLNElKOFJQRFVjcktwMzh1RWU5NUhB</password>
       <id>snapshots</id>
     </server>
   </servers>
@@ -21,14 +21,14 @@
             <enabled>false</enabled>
           </snapshots>
           <id>central</id>
-          <name>demo-libs-release</name>
-          <url>https://manojdevops9.jfrog.io/artifactory/demo-libs-release</url>
+          <name>manoj-libs-release</name>
+          <url>https://manoj0309.jfrog.io/artifactory/manoj-libs-release</url>
         </repository>
         <repository>
           <snapshots />
           <id>snapshots</id>
-          <name>demo-libs-snapshot</name>
-          <url>https://manojdevops9.jfrog.io/artifactory/demo-libs-snapshot</url>
+          <name>manoj-libs-snapshot</name>
+          <url>https://manoj0309.jfrog.io/artifactory/manoj-libs-snapshot</url>
         </repository>
       </repositories>
       <pluginRepositories>
@@ -37,14 +37,14 @@
             <enabled>false</enabled>
           </snapshots>
           <id>central</id>
-          <name>demo-libs-release</name>
-          <url>https://manojdevops9.jfrog.io/artifactory/demo-libs-release</url>
+          <name>manoj-libs-release</name>
+          <url>https://manoj0309.jfrog.io/artifactory/manoj-libs-release</url>
         </pluginRepository>
         <pluginRepository>
           <snapshots />
           <id>snapshots</id>
-          <name>demo-libs-snapshot</name>
-          <url>https://manojdevops9.jfrog.io/artifactory/demo-libs-snapshot</url>
+          <name>manoj-libs-snapshot</name>
+          <url>https://manoj0309.jfrog.io/artifactory/manoj-libs-snapshot</url>
         </pluginRepository>
       </pluginRepositories>
       <id>artifactory</id>

@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.preethidevops.tutorial</groupId>
+    <groupId>com.manojdevops.tutorial</groupId>
     <artifactId>addressbook</artifactId>
     <packaging>war</packaging>
-    <version>4.0</version>
+    <version>5.0</version>
     <name>Vaadin Addressbook example</name>
 
     <properties>
@@ -518,8 +518,8 @@
    <distributionManagement>
     <repository>
         <id>central</id>
-        <name>a0wi4bje8qw8b-artifactory-primary-0-releases</name>
-        <url>https://manojdevops9.jfrog.io/artifactory/demo-libs-release</url>
+        <name>a0mcrby9skxkw-artifactory-primary-0-releases</name>
+        <url>https://manoj0309.jfrog.io/artifactory/manoj-libs-release</url>
     </repository>
 </distributionManagement>
 </project>
