@@ -12,7 +12,7 @@ pipeline {
 
     }
     environment{
-        BUILD_SERVER='ec2-user@172.31.9.94'
+        BUILD_SERVER='ec2-user@172.31.9.193'
     }
 
     stages {
@@ -61,7 +61,7 @@ pipeline {
             
         }
         stage('CodeCoverage') {
-            agent {label 'linux_slave'}
+            agent any
             steps {
                 script{
                     echo "Code Coverage by jacoco"
