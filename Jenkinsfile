@@ -83,7 +83,7 @@ pipeline {
             steps {
                 script{
                     echo "packaging the code"
-                    echo 'platform is ${Platform}'
+                    echo "platform is ${Platform}"
                     echo "packing the version ${params.APPVERSION}"
                     //sh "mvn package"
                     sh "scp  -o StrictHostKeyChecking=no server-script.sh ${BUILD_SERVER}:/home/ec2-user"
@@ -106,7 +106,7 @@ pipeline {
                 echo 'publishing the artifact to jfrog'
                 sh "mvn -U deploy -s settings.xml"
             }
-            }
+        }
     }
 }
 }
